@@ -3,7 +3,7 @@ import path from 'node:path';
 import passport from 'passport';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { PrismaClient } from '@prisma/client/extension';
+import { PrismaClient } from '@prisma/client';
 import "./config/passport.js";
 import authRoutes from './routes/authRoutes.js';
 const app = express()
@@ -13,7 +13,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json())
 app.use(express.static('public'));
 
-const prisma = new PrismaClient();
+import prisma from "./lib/prisma.js";
+// const prisma = new PrismaClient();
 app.use(
     session({
         store: new PrismaSessionStore(prisma,{
@@ -33,7 +34,7 @@ app.use(passport.session());
 
 app.use('/',authRoutes);
 app.get('/',(req,res)=>{
-    res.send('Server i running');
+    res.render('index',{user:req.user});
 })
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{

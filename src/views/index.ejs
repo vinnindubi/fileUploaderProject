@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Storage</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main>
+        <% if (user) { %>
+            <h1>Welcome to your Dashboard, <%= user.username %>!</h1>
+            <p>You are officially logged in and your session is active.</p>
+            
+            <form action="/logout" method="POST">
+                <button type="submit">Log Out</button>
+            </form>
+        <% } else { %>
+            <h1>Personal Storage App</h1>
+            <p>Please log in or register to upload files.</p>
+            <a href="/login"><button>Log In</button></a>
+            <a href="/register"><button>Register</button></a>
+        <% } %>
+    </main>
+</body>
+</html>
