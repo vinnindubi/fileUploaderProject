@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model Session {
+  id String @id
+  sid String @unique
+  data String
+  expiresAt DateTime
+}
+model User {
+  id String @id
+  username String @unique
+  password  String
+  folders Folder[]
+  files  File[]
+}
+model Folder{
+ id String @id @default(uuid())
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references: [id])
+  userId String
+  files File[] 
+  sharedId String
+  expiresAt DateTime
+}
+model File{
+  id String @id @default(uuid())
+  name String 
+  path  String
+  size String
+  uploadTime DateTime @default(now())
+  user User @relation(fields: [userId],references: [id])
+  userId String
+  folder Folder? @relation(fields: [folderId], references: [id])
+  folderId String
+ 
+
+}
