@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static('public'));
 const __firname =fileURLToPath(import.meta.url);
 const __dirname= path.dirname(__firname);
-app.set("views", path.join(__dirname, "./views"));
+app.set("views", path.join(__dirname, "../src/views"));
 
 import prisma from "./lib/prisma.js";
 import "express-session";
