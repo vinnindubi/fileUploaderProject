@@ -1,6 +1,6 @@
 import multer from "multer";
 import {v2 as cloudinary} from "cloudinary";
-import {cloudinaryStorage} from "multer-storage-cloudinary";
+import {CloudinaryStorage} from "multer-storage-cloudinary";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string ,
@@ -8,7 +8,7 @@ cloudinary.config({
     api_secret:process.env.CLOUDINARY_API_SECRET as string,
 });
 
-const storage = new cloudinaryStorage({
+const storage = new CloudinaryStorage({
     cloudinary:cloudinary,
     params:{
             folder:"my_drive_uploads",
