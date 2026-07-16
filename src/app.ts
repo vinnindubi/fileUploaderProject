@@ -3,7 +3,6 @@ import path from 'path';
 import passport from 'passport';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-
 import "./config/passport.js";
 import authRoutes from './routes/authRoutes.js';
 import {fileURLToPath} from "url";
@@ -11,15 +10,20 @@ const app = express()
 app.set("views","./src/views");
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
-
+app.use(express.json());
 app.use(express.static('public'));
 const __firname =fileURLToPath(import.meta.url);
 const __dirname= path.dirname(__firname);
 app.set("views", path.join(__dirname, "./views"));
 
 import prisma from "./lib/prisma.js";
-
-// const prisma = new PrismaClient();
+import "express-session";
+// Tell TypeScript that Passport will occasionally add a 'messages' array to the session
+declare module "express-session" {
+  interface SessionData {
+    messages?: string[];
+  }
+}
 app.use(
     session({
         store: new PrismaSessionStore(prisma,{

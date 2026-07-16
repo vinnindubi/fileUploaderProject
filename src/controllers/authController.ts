@@ -1,8 +1,7 @@
-import{type Request,type Response,type NextFunction, response} from 'express';
+import{type Request,type Response,type NextFunction} from 'express';
 import bcrypt from 'bcrypt';
-import { PrismaClient } from "@prisma/client";
 import prisma from "../lib/prisma.js";
-// const prisma =new PrismaClient();
+
 
 export const register= async (req:Request,res:Response,next:NextFunction)=>{
     try{

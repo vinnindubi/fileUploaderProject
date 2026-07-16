@@ -9,18 +9,39 @@
 <body>
     <main>
         <h1>Welcome Back</h1>
-        <form action="/login" method="POST">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Log In</button>
-        </form>
+        <div id="error-message" style="color: red;"></div>
+        <form id="login-form">
+  <input type="text" id="username" name="username">
+  <input type="password" id="password" name="password">
+  <button type="submit">Login</button>
+</form>
         <p>Need an account? <a href="/register">Sign up here</a>.</p>
     </main>
+    <script>
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault(); // 1. STOP the form from reloading the page
+
+    // 2. Grab the typed username and password
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    // 3. Send them to your Express server silently in the background
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+
+    // 4. Handle the server's reply
+    if (!response.ok) {
+      // It failed! Put the error text into the empty HTML box
+      document.getElementById("error-message").innerText = result.error;
+    } else {
+      // It worked! Manually send the user to the dashboard
+      window.location.href = result.redirectUrl;
+    }
+  });
+</script>
 </body>
 </html>

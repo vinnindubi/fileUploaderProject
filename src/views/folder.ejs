@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= currentFolder.name %></title>
+</head>
+<body>
+    <main>
+        <% if (currentFolder.parentId) { %>
+            <a href="/folders/<%= currentFolder.parentId %>">⬅ Back to <%= currentFolder.parent.name %></a>
+        <% } else { %>
+            <a href="/dashboard">⬅ Back to My Drive</a>
+        <% } %>
+
+        <h1>📁 <%= currentFolder.name %></h1>
+        <hr>
+
+        <h3>Create Subfolder</h3>
+        <form action="/folders" method="POST">
+            <input type="text" name="name" placeholder="Folder Name" required>
+            <input type="hidden" name="parentId" value="<%= currentFolder.id %>">
+            <button type="submit">Create Subfolder</button>
+        </form>
+        <hr>
+        <h3>Upload File</h3>
+        <form action="/files" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            
+            <input type="hidden" name="folderId" value="<%= currentFolder.id %>">
+            
+            <button type="submit">Upload</button>
+        </form>
+        <hr>
+
+        <h2>Folders in <%= currentFolder.name %></h2>
+        <ul>
+            <% if (currentFolder.children.length === 0) { %>
+                <li>This folder is empty.</li>
+            <% } else { %>
+                <% currentFolder.children.forEach(childFolder => { %>
+                    <li>📁 <a href="/folders/<%= childFolder.id %>"><%= childFolder.name %></a>
+                    <form action="/folders/<%= folder.id %>/delete" method="POST" style="margin: 0;">
+                        <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
+                    </form>
+                </li>
+                <% }) %>
+            <% } %>
+        </ul>
+
+        <h2>Files in <%= currentFolder.name %></h2>
+        <ul>
+            <% if (currentFolder.files.length === 0) { %>
+                <li>No files here.</li>
+            <% } else { %>
+                <% currentFolder.files.forEach(file => { %>
+                    <li style="margin-bottom: 10px;">
+                        📄 <%= file.name %> 
+                        <span style="color: gray; font-size: 0.8em;">(<%= file.size %> bytes)</span>
+                        
+                        <a href="/files/<%= file.id %>/download" style="margin-left: 10px;">⬇️ Download</a>
+                        <form action="/files/<%= file.id %>/delete" method="POST" style="margin: 0;">
+                            <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
+                        </form>
+                    </li>
+                <% }) %>
+            <% } %>
+        </ul>
+    </main>
+</body>
+</html>

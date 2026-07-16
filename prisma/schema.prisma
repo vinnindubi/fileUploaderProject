@@ -33,6 +33,10 @@ model Folder {
   // 👇 Made these optional so folders can be private by default
   sharedId  String?  
   expiresAt DateTime?
+  //sel referential relation 
+  parentId String?   //IF NULL this folder lives in the Root directory!
+  parent    Folder? @relation("FolderToFolder",fields:[parentId],references: [id],onDelete: Cascade)
+  children Folder[] @relation("FolderToFolder")
 }
 
 model File {
