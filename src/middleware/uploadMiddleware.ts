@@ -16,8 +16,8 @@ const storage = new CloudinaryStorage({
             } as any,
 });
 const fileFilter =(req:any,file:any,cb:any)=>{
-    const allowedTypes = ["image/jpeg","image/png","image.gif","application/pdf"];
-    if(allowedTypes.includes(file.mimetypes)){
+    const allowedTypes = ["image/jpeg","image/png","image/gif","application/pdf"];
+    if(allowedTypes.includes(file.mimetype)){
         cb(null,true);
     }else{
         cb(new Error("Invalid file type.Only JPG, PNG, GIF, and PDF are allowed."),false);
