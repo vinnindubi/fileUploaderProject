@@ -13,11 +13,14 @@ export const downloadFile =async (req:Request,res:Response,next:NextFunction)=>{
         if(file.userId!== userId){
             return res.status(403).send("Unauthorized access.");
         }
-        res.download(file.path,file.name,(error)=>{
-            if(error){
-                next(error);
-            }
-        });
+        // //-----local storage ----
+        // res.download(file.path,file.name,(error)=>{
+        //     if(error){
+        //         next(error);
+        //     }
+        // });
+        // //----local storage ends here -----
+        res.redirect(file.path);
     }catch(error){
         next(error)
     }
