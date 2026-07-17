@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Folder: <%= folder.name %></title>
+    <!-- Using basic styles, feel free to replace with your Bootstrap/Tailwind classes -->
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .item-list { list-style: none; padding: 0; }
+        .item-list li { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; }
+        .item-list li:last-child { border-bottom: none; }
+        .btn { text-decoration: none; padding: 6px 12px; border-radius: 4px; color: white; background-color: #0d6efd; font-size: 14px; }
+        .btn:hover { background-color: #0b5ed7; }
+        .text-muted { color: #6c757d; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div style="margin-bottom: 30px;">
+        <h1 style="margin: 0;">📁 <%= folder.name %></h1>
+        <p class="text-muted">This folder has been shared with you. Link expires on <%= new Date(folder.expiresAt).toLocaleDateString() %></p>
+    </div>
+
+    <!-- SUBFOLDERS SECTION -->
+    <% if (folder.children && folder.children.length > 0) { %>
+        <h3>Folders</h3>
+        <ul class="item-list" style="margin-bottom: 30px;">
+            <% folder.children.forEach(subfolder => { %>
+                <li>
+                    <span>📁 <strong><%= subfolder.name %></strong></span>
+                    <span class="text-muted">Contents hidden</span>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <!-- FILES SECTION -->
+    <h3>Files</h3>
+    <% if (folder.files && folder.files.length > 0) { %>
+        <ul class="item-list">
+            <% folder.files.forEach(file => { 
+                
+                // 1. Sanitize the filename for Cloudinary right here in the view
+                const nameWithoutExt = file.name.split('.').slice(0, -1).join('.') || file.name;
+                const safeName = nameWithoutExt.replace(/[^a-zA-Z0-9_-]/g, "_");
+                
+                // 2. Build the forced-download URL
+                const downloadUrl = file.path.replace("/upload/", `/upload/fl_attachment:${safeName}/`);
+            %>
+                <li>
+                    <div>
+                        📄 <strong><%= file.name %></strong>
+                        <br>
+                        <!-- Convert bytes to KB/MB for a cleaner display -->
+                        <span class="text-muted">
+                            <%= (parseInt(file.size) / 1024 / 1024).toFixed(2) %> MB
+                        </span>
+                    </div>
+                    <a href="<%= downloadUrl %>" class="btn">⬇️ Download</a>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 8px;">
+            <p class="text-muted" style="margin: 0;">This folder is currently empty.</p>
+        </div>
+    <% } %>
+</div>
+
+</body>
+</html>

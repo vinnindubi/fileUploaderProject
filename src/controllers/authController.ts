@@ -25,7 +25,7 @@ export const register= async (req:Request,res:Response,next:NextFunction)=>{
         //automatically login the user immediately after they register
         req.login(newUser,(error)=>{
             if(error)return next(error);
-            return res.redirect("/")
+            return res.redirect("/dashboard")
         });
     }catch(error){
         next(error);

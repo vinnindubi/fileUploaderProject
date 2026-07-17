@@ -5,7 +5,8 @@ import { isAuth } from "../middleware/authMiddleware.js";
 import { createFolder, deleteFile, deleteFolder, getDashboard, getFolder } from "../controllers/createFoldersController.js";
 import { uploadFile } from "../controllers/uploadController.js";
 import { upload } from "../middleware/uploadMiddleware.js";
-import { downloadFile } from "../controllers/downloadFileCountroller.js";
+import { downloadFile, shareFile } from "../controllers/downloadFileCountroller.js";
+import { generateFolderShareLink, viewSharedFolder } from "../controllers/linkGeneratorController.js";
 const router =Router();
 router.get("/register",(req,res)=>{
     res.render("register");
@@ -50,7 +51,9 @@ router.post("/logout",logoutUser);
 
 router.post('/files',isAuth,upload.single("file"),uploadFile);
 // router.get("/files/:id/download",isAuth,downloadFile);// Local Storage way!
-
+router.get("/share/:id", shareFile);
+router.post("/share/folder/:id",isAuth,generateFolderShareLink);
+router.get("/share/:sharedId",viewSharedFolder);
 router.get("/files/download/:id",downloadFile);
 router.post("/files/:id/delete",isAuth,deleteFile);
 router.post("/folders/:id/delete",isAuth,deleteFolder);
