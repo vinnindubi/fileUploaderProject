@@ -76,7 +76,7 @@
     <script>
     function copyToClipboard(fileId) {
         // window.location.origin grabs your exact Render domain automatically
-        const shareUrl = `${window.location.origin}/share/${fileId}`;
+        const shareUrl = `${window.location.origin}/share/folder-view/${fileId}`;
         
         navigator.clipboard.writeText(shareUrl).then(() => {
             alert("Share link copied to clipboard!");
