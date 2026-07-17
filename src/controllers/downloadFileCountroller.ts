@@ -26,3 +26,18 @@ export const downloadFile =async (req:Request,res:Response,next:NextFunction)=>{
         next(error)
     }
 }
+export const shareFile =async (req:Request,res:Response,next:NextFunction)=>{
+    try{
+        const fileId =(req.params.id) as any
+        const existFile =await prisma.file.findUnique({
+            where:{id:fileId}
+        })
+        if(!existFile){
+            return res.status(400).send("This File no longer exists.");
+        }
+         res.redirect(existFile.path);
+
+    }catch(error){
+        next(error);
+    }
+}

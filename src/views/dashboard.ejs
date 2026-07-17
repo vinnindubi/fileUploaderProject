@@ -40,7 +40,16 @@
                 <% }) %>
             <% } %>
         </ul>
-
+        <!-- The Share Form -->
+        <form onsubmit="shareFolder(event, '<%= folder.id %>')" class="share-form" style="display: inline-flex; gap: 10px;">
+            <select id="duration-<%= folder.id %>" class="form-select" required>
+                <option value="1">1 Day</option>
+                <option value="7">7 Days</option>
+                <option value="10">10 Days</option>
+                <option value="30">30 Days</option>
+            </select>
+            <button type="submit" class="btn btn-primary">🔗 Create Share Link</button>
+</form>
         <h2>My Files</h2>
         <ul>
             <% if (contents.files.length === 0) { %>
@@ -52,6 +61,9 @@
                         <span style="color: gray; font-size: 0.8em;">(<%= file.size %> bytes)</span>
                         
                         <a href="/files/download/<%= file.id %>" class="btn btn-primary" style="margin-left: 10px;">⬇️ Download</a>
+                        <button onclick="copyToClipboard('<%= file.id %>')" class="btn btn-secondary" style="margin-left: 10px;">
+                            🔗 Copy Share Link
+                        </button>
                         <form action="/files/<%= file.id %>/delete" method="POST" style="margin: 0;">
                             <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
                         </form>
@@ -60,5 +72,42 @@
             <% } %>
         </ul>
     </main>
+    <script>
+    function copyToClipboard(fileId) {
+        // window.location.origin grabs your exact Render domain automatically
+        const shareUrl = `${window.location.origin}/share/${fileId}`;
+        
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            alert("Share link copied to clipboard!");
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    }
+    async function shareFolder(event, folderId) {
+        event.preventDefault(); // Stop page reload
+        
+        const durationDays = document.getElementById(`duration-${folderId}`).value;
+
+        try {
+            // Send the folderId and duration to your backend
+            const response = await fetch(`/share/folder/${folderId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ duration: durationDays })
+            });
+            
+            const data = await response.json();
+            
+            // Build the URL using the returned sharedId
+            const shareUrl = `${window.location.origin}/share/${data.sharedId}`;
+            
+            await navigator.clipboard.writeText(shareUrl);
+            alert(`Link copied! It will expire in ${durationDays} days.\n\n${shareUrl}`);
+        } catch (err) {
+            console.error(err);
+            alert("Failed to generate link.");
+        }
+    }
+</script>
 </body>
 </html>
