@@ -20,8 +20,7 @@ export const downloadFile =async (req:Request,res:Response,next:NextFunction)=>{
         //     }
         // });
         // //----local storage ends here -----
-        const safeFileName =encodeURIComponent(file.name);
-        const downloadUrl = file.path.replace("/upload/",`/upload/fl_attachment:${safeFileName}/`);
+        const downloadUrl = file.path.replace("/upload/","/upload/fl_attachment");
         res.redirect(downloadUrl);
     }catch(error){        
         next(error)
