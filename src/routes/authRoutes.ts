@@ -51,9 +51,10 @@ router.post("/logout",logoutUser);
 
 router.post('/files',isAuth,upload.single("file"),uploadFile);
 // router.get("/files/:id/download",isAuth,downloadFile);// Local Storage way!
-router.get("/share/:id", shareFile);
+
 router.post("/share/folder/:id",isAuth,generateFolderShareLink);
-router.get("/share/:sharedId",viewSharedFolder);
+router.get("/share/folder-view/:sharedId",viewSharedFolder);
+router.get("/share/:id", shareFile);
 router.get("/files/download/:id",downloadFile);
 router.post("/files/:id/delete",isAuth,deleteFile);
 router.post("/folders/:id/delete",isAuth,deleteFolder);

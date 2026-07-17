@@ -94,7 +94,7 @@
             const data = await response.json();
             
             // Build the URL using the returned sharedId
-            const shareUrl = `${window.location.origin}/share/${data.sharedId}`;
+            const shareUrl = `${window.location.origin}/share/folder-view/${data.sharedId}`;
             
             await navigator.clipboard.writeText(shareUrl);
             alert(`Link copied! It will expire in ${durationDays} days.\n\n${shareUrl}`);
