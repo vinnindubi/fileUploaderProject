@@ -33,28 +33,32 @@
         <hr>
 
         <h2>Folders in <%= currentFolder.name %></h2>
+        <h2>Folders in <%= currentFolder.name %></h2>
         <ul>
             <% if (currentFolder.children.length === 0) { %>
                 <li>This folder is empty.</li>
             <% } else { %>
-                <p>nothing</p>
-                <!-- <% currentFolder.children.forEach(childFolder => { %>
-                    <li>📁 <a href="/folders/<%= childFolder.id %>"><%= childFolder.name %></a>
-                    <form action="/folders/<%= folder.id %>/delete" method="POST" style="margin: 0;">
-                        <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
-                    </form>
-                    <form onsubmit="shareFolder(event, '<%= folder.id %>')" class="share-form" style="display: inline-flex; gap: 10px;">
-                        <select id="duration-<%= folder.id %>" class="form-select" required>
-                            <option value="1">1 Day</option>
-                            <option value="7">7 Days</option>
-                            <option value="10">10 Days</option>
-                            <option value="30">30 Days</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary">🔗 Create Share Link</button>
-                    </form>
-                </li>
-
-                <% }) %> -->
+                <% currentFolder.children.forEach(childFolder => { %>
+                    <li style="margin-bottom: 15px;">
+                        📁 <a href="/folders/<%= childFolder.id %>"><%= childFolder.name %></a>
+                        
+                        <!-- Fixed to use childFolder.id -->
+                        <form action="/folders/<%= childFolder.id %>/delete" method="POST" style="display: inline-block; margin: 0 10px;">
+                            <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
+                        </form>
+                        
+                        <!-- Fixed to use childFolder.id -->
+                        <form onsubmit="shareFolder(event, '<%= childFolder.id %>')" class="share-form" style="display: inline-flex; gap: 10px;">
+                            <select id="duration-<%= childFolder.id %>" class="form-select" required>
+                                <option value="1">1 Day</option>
+                                <option value="7">7 Days</option>
+                                <option value="10">10 Days</option>
+                                <option value="30">30 Days</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">🔗 Create Share Link</button>
+                        </form>
+                    </li>
+                <% }) %>
             <% } %>
         </ul>
         
