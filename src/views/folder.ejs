@@ -37,7 +37,8 @@
             <% if (currentFolder.children.length === 0) { %>
                 <li>This folder is empty.</li>
             <% } else { %>
-                <% currentFolder.children.forEach(childFolder => { %>
+                <p>nothing</p>
+                <!-- <% currentFolder.children.forEach(childFolder => { %>
                     <li>📁 <a href="/folders/<%= childFolder.id %>"><%= childFolder.name %></a>
                     <form action="/folders/<%= folder.id %>/delete" method="POST" style="margin: 0;">
                         <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
@@ -53,7 +54,7 @@
                     </form>
                 </li>
 
-                <% }) %>
+                <% }) %> -->
             <% } %>
         </ul>
         
