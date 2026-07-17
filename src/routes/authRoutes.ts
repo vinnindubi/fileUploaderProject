@@ -51,9 +51,7 @@ router.post("/logout",logoutUser);
 router.post('/files',isAuth,upload.single("file"),uploadFile);
 // router.get("/files/:id/download",isAuth,downloadFile);// Local Storage way!
 
-router.get("/files/download/:id",async (req,res)=>{
-  
-});
+router.get("/files/download/:id",downloadFile);
 router.post("/files/:id/delete",isAuth,deleteFile);
 router.post("/folders/:id/delete",isAuth,deleteFolder);
 export default router;
