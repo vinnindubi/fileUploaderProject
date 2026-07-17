@@ -109,6 +109,17 @@
             alert("Failed to generate link.");
         }
     }
+    async function copyToClipboard(fileId) {
+        // Notice we use /share/ here instead of /share/folder-view/
+        const shareUrl = `${window.location.origin}/share/${fileId}`;
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            alert(`File link copied!\n\n${shareUrl}`);
+        } catch (err) {
+            console.error("Failed to copy", err);
+            alert("Failed to copy link.");
+        }
+    }
 </script>
 </body>
 </html>
