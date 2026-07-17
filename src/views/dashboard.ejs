@@ -37,19 +37,20 @@
                         <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
                     </form>
                     </li>
+                    <!-- The Share Form -->
+                    <form onsubmit="shareFolder(event, '<%= folder.id %>')" class="share-form" style="display: inline-flex; gap: 10px;">
+                        <select id="duration-<%= folder.id %>" class="form-select" required>
+                            <option value="1">1 Day</option>
+                            <option value="7">7 Days</option>
+                            <option value="10">10 Days</option>
+                            <option value="30">30 Days</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">🔗 Create Share Link</button>
+                    </form>
                 <% }) %>
             <% } %>
         </ul>
-        <!-- The Share Form -->
-        <form onsubmit="shareFolder(event, '<%= folder.id %>')" class="share-form" style="display: inline-flex; gap: 10px;">
-            <select id="duration-<%= folder.id %>" class="form-select" required>
-                <option value="1">1 Day</option>
-                <option value="7">7 Days</option>
-                <option value="10">10 Days</option>
-                <option value="30">30 Days</option>
-            </select>
-            <button type="submit" class="btn btn-primary">🔗 Create Share Link</button>
-</form>
+        
         <h2>My Files</h2>
         <ul>
             <% if (contents.files.length === 0) { %>
