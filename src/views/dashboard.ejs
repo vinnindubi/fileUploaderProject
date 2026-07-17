@@ -51,7 +51,7 @@
                         📄 <%= file.name %> 
                         <span style="color: gray; font-size: 0.8em;">(<%= file.size %> bytes)</span>
                         
-                        <a href="/files/<%= file.id %>/download" class="btn btn-primary" style="margin-left: 10px;">⬇️ Download</a>
+                        <a href="/files/download/<%= file.id %>" class="btn btn-primary" style="margin-left: 10px;">⬇️ Download</a>
                         <form action="/files/<%= file.id %>/delete" method="POST" style="margin: 0;">
                             <button type="submit" style="color: red; background: none; border: 1px solid red; cursor: pointer;">Delete</button>
                         </form>
